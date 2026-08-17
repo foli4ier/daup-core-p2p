@@ -1,0 +1,36 @@
+{
+  "name": "daup-core-p2p",
+  "version": "1.0.0",
+  "description": "Foundational decentralized networking backbone of the DAUP ecosystem",
+  "type": "module",
+  "main": "dist/src/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "start": "node dist/src/index.js"
+  },
+  "dependencies": {
+    "libp2p": "*",
+    "@libp2p/tcp": "*",
+    "@libp2p/webrtc": "*",
+    "@libp2p/websockets": "*",
+    "@chainsafe/libp2p-noise": "*",
+    "@chainsafe/libp2p-yamux": "*",
+    "@libp2p/kad-dht": "*",
+    "@libp2p/gossipsub": "*",
+    "@libp2p/peer-id": "*",
+    "@libp2p/peer-id-factory": "*",
+    "@libp2p/identify": "*",
+    "@libp2p/ping": "*",
+    "it-pipe": "*",
+    "it-pushable": "*",
+    "it-length-prefixed": "*",
+    "dotenv": "*"
+  },
+  "devDependencies": {
+    "typescript": "*",
+    "vitest": "*",
+    "@types/node": "*"
+  }
+}
