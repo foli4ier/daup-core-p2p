@@ -32,7 +32,7 @@ export async function startHomeNode(env: NodeJS.ProcessEnv = process.env): Promi
 
   const peerId = node.node.peerId.toString();
   const listenAddrs = node.node.getMultiaddrs().map((addr: { toString(): string }) => addr.toString());
-  const bootstrapPeers = toBootstrapMultiaddrs(listenAddrs, peerId, config.announceHosts);
+  const bootstrapPeers = toBootstrapMultiaddrs(config.listenAddrs, peerId, config.announceHosts);
 
   console.log(formatHomeNodeStartBanner({
     did: node.did,
