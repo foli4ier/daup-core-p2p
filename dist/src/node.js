@@ -1,6 +1,5 @@
 import { createLibp2p } from 'libp2p';
 import { tcp } from '@libp2p/tcp';
-import { webRTC } from '@libp2p/webrtc';
 import { webSockets } from '@libp2p/websockets';
 import { noise } from '@chainsafe/libp2p-noise';
 import { yamux } from '@chainsafe/libp2p-yamux';
@@ -8,9 +7,10 @@ import { kadDHT } from '@libp2p/kad-dht';
 import { gossipsub } from '@libp2p/gossipsub';
 import { identify, identifyPush } from '@libp2p/identify';
 import { ping } from '@libp2p/ping';
+import { generateKeyPairFromSeed } from '@libp2p/crypto/keys';
 import { createPrivateKey, createPublicKey } from 'node:crypto';
 import { multiaddr } from '@multiformats/multiaddr';
-import { generateKeyPairHex, getDidFromPublicKey } from './crypto.js';
+import { ed25519SeedFromPkcs8Hex, generateKeyPairHex, getDidFromPublicKey } from './crypto.js';
 import { ActiveStateRegistry, runInitiatorHandshake, runResponderHandshake } from './handshake.js';
 import { createEnvelope, verifyEnvelope } from './envelope.js';
 export class P2PNode {
@@ -55,6 +55,7 @@ export class P2PNode {
         const transports = [tcp()];
         if (enableWebRTC) {
             try {
+                const { webRTC } = await import('@libp2p/webrtc');
                 transports.push(webRTC());
             }
             catch (err) {
@@ -69,8 +70,10 @@ export class P2PNode {
                 console.warn(`[Node] Could not enable WebSockets transport: ${err.message}`);
             }
         }
-        // 1. Create the libp2p instance
+        // 1. Create the libp2p instance (PeerId derived from the persisted DAUP key)
+        const privateKey = await generateKeyPairFromSeed('Ed25519', ed25519SeedFromPkcs8Hex(this.privateKeyHex));
         this.node = await createLibp2p({
+            privateKey,
             addresses: {
                 listen: listenAddrs
             },
