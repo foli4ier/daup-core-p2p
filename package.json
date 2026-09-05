@@ -4,11 +4,15 @@
   "description": "Foundational decentralized networking backbone of the DAUP ecosystem",
   "type": "module",
   "main": "dist/src/index.js",
+  "bin": {
+    "daup-home": "dist/src/home.js"
+  },
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
     "test:watch": "vitest",
-    "start": "node dist/src/index.js"
+    "start": "node dist/src/index.js",
+    "start:home": "node dist/src/home.js"
   },
   "dependencies": {
     "libp2p": "*",
@@ -17,6 +21,7 @@
     "@libp2p/websockets": "*",
     "@chainsafe/libp2p-noise": "*",
     "@chainsafe/libp2p-yamux": "*",
+    "@libp2p/crypto": "*",
     "@libp2p/kad-dht": "*",
     "@libp2p/gossipsub": "*",
     "@libp2p/peer-id": "*",

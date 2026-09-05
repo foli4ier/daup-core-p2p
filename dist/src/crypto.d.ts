@@ -3,6 +3,11 @@ export interface KeyPairHex {
     privateKey: string;
 }
 /**
+ * Extract the 32-byte Ed25519 seed from a PKCS8 DER private key hex.
+ * Does not log or return the full private key material beyond the seed bytes.
+ */
+export declare function ed25519SeedFromPkcs8Hex(privateKeyHex: string): Uint8Array;
+/**
  * Generate a new Ed25519 key pair and return them in hex format.
  */
 export declare function generateKeyPairHex(): KeyPairHex;

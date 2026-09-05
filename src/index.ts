@@ -1,5 +1,20 @@
 export { P2PNode, P2PNodeOptions } from './node.js';
 export {
+  DEFAULT_TCP_PORT,
+  DEFAULT_WS_PORT,
+  DEFAULT_PEER_KEY_FILE,
+  HomeListenConfig,
+  HomeNodeIdentity,
+  LoadPeerKeyResult,
+  parseListenAddrs,
+  resolveHomeListenConfig,
+  resolvePeerKeyFilePath,
+  loadOrCreatePeerKey,
+  loadOrCreatePeerKeyFromEnv,
+  toBootstrapMultiaddrs,
+  formatHomeNodeStartBanner
+} from './home-config.js';
+export {
   MessageEnvelope,
   EnvelopeValidationOptions,
   verifyEnvelope,
@@ -9,6 +24,7 @@ export {
 export {
   KeyPairHex,
   generateKeyPairHex,
+  ed25519SeedFromPkcs8Hex,
   getDidFromPublicKey,
   getPublicKeyFromDid,
   signData,

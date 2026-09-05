@@ -6,6 +6,27 @@ export interface KeyPairHex {
 }
 
 /**
+ * Extract the 32-byte Ed25519 seed from a PKCS8 DER private key hex.
+ * Does not log or return the full private key material beyond the seed bytes.
+ */
+export function ed25519SeedFromPkcs8Hex(privateKeyHex: string): Uint8Array {
+  const privateKey = createPrivateKey({
+    key: Buffer.from(privateKeyHex, 'hex'),
+    format: 'der',
+    type: 'pkcs8'
+  });
+  const jwk = privateKey.export({ format: 'jwk' });
+  if (!jwk.d) {
+    throw new Error('Invalid peer private key: Ed25519 seed missing');
+  }
+  const seed = Buffer.from(jwk.d, 'base64url');
+  if (seed.length !== 32) {
+    throw new Error('Invalid peer private key: Ed25519 seed must be 32 bytes');
+  }
+  return seed;
+}
+
+/**
  * Generate a new Ed25519 key pair and return them in hex format.
  */
 export function generateKeyPairHex(): KeyPairHex {
